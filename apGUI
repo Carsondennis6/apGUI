@@ -1,0 +1,76 @@
+#carson dennis code
+
+import simplegui
+
+# Canvas Dimensions
+canvas_width = 400
+canvas_height = 400
+
+# Global Variables
+message1 = ""
+message2 = ""
+message3 = ""
+message4 = ""
+
+##### YES-NO IMAGE CODE ##########
+#Where the image will be on the canvas
+draw_image_size = [200, 120]
+draw_position = [canvas_width/2, 300]
+
+#image Pixels for my image
+width = 408
+height = 245
+
+# My image information
+my_image_info = [[width/2, height/2], [width, height]]
+my_image = simplegui.load_image("https://docs.google.com/uc?export=download&id=1einUIbSKL7NuA-eZsbz7zqe8WEZlkgho")
+###########################
+
+
+########### EVENT HANDLERS #####################
+#define event handlers for mouse click, buttons, input box, draw
+def clickhere(pos): #pos is a list of two numbers: [x_coord, y_coord] of mouse click
+    global message3
+    yes = (pos[0]<198 and pos[0]>100) 
+    #no button
+    no = (pos[1]<358 and pos[1]>240)
+    if yes == True:
+        print("You clicked yes!")
+        message3 = "You clicked yes!"
+    elif no == True:
+        print("You clicked no!")
+        message3 = "You clicked No!"
+    else:
+        print("You didnt click any of the buttons...")
+
+# define button handler        
+def button_handler():
+    global message1
+    message1 = "Go Mats!"
+
+#define input box handler    
+def input_handler(text_input):
+    global message4
+    print ("You entered,", text_input) 
+    message4 = text_input
+
+#define draw handler    
+def draw(canvas):
+    global message
+    canvas.draw_image(my_image, my_image_info[0], my_image_info[1], draw_position, draw_image_size)
+    #go mats psosition
+    canvas.draw_text(message1,(canvas_width/2-180, 50),36, 'green')
+    canvas.draw_text(message3,(canvas_width/2-100, canvas_height/2),36, 'Blue')
+    #entered text
+    canvas.draw_text(message4,(canvas_width/2-180, 120),36, 'red')
+    
+# Register Frame Components
+frame = simplegui.create_frame("Yes or No", canvas_width, canvas_height)
+frame.set_canvas_background("White")
+frame.set_mouseclick_handler(clickhere)
+frame.set_draw_handler(draw)
+frame.add_label('My label')
+frame.add_button('Show Message', button_handler)
+frame.add_input('My Input Box', input_handler, 50)
+
+frame.start()
